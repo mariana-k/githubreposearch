@@ -4,7 +4,7 @@ const reposSlice = createSlice({
   name: 'repos',
   initialState: {
     items: [],
-    query: 'web',
+    query: 'react',
     loading: true,
     currentPage: 1,
   },
@@ -21,9 +21,6 @@ const reposSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    setTotalCount: (state, action) => {
-      state.totalCount = action.payload;
-    },
   },
 });
 
@@ -32,7 +29,6 @@ export const {
   setQuery,
   setLoading,
   setCurrentPage,
-  setTotalCount,
 } = reposSlice.actions;
 
 export default reposSlice.reducer;

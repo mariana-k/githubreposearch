@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,22 +10,22 @@ import {
 import SearchForm from './components/SearchForm';
 import RepoList from './components/RepoList';
 import './App.css';
-
 const App = () => {
 	const dispatch = useDispatch();
 	const repos = useSelector((state) => state.repos.items);
 	const query = useSelector((state) => state.repos.query);
 	const loading = useSelector((state) => state.repos.loading);
 	const currentPage = useSelector((state) => state.repos.currentPage);
-
+	const [totalPages, setTotalPages] = useState(1);
+	const perPage = 20;
 	const performSearch = useCallback(
 		(query) => {
-			const perPage = 20;
 			dispatch(setQuery(query));
 			dispatch(setLoading(true));
 			axios
-				.get(`https://api.github.com/search/repositories?q=${query}`, {
+				.get(`https://api.github.com/search/repositories`, {
 					params: {
+						q: query,
 						per_page: perPage,
 						page: currentPage,
 					},
@@ -33,6 +33,7 @@ const App = () => {
 				.then((response) => {
 					dispatch(setItems(response.data.items));
 					dispatch(setLoading(false));
+					setTotalPages(Math.ceil(response.data.total_count / perPage));
 				})
 				.catch((error) => {
 					console.log('Error fetching and parsing data', error);
@@ -41,18 +42,23 @@ const App = () => {
 		[currentPage, dispatch]
 	);
 
+	const handlePrevPageClick = () => {
+		dispatch(setCurrentPage(currentPage - 1))
+    console.log(currentPage)
+	};
+
+	const handleNextPageClick = () => {
+		dispatch(setCurrentPage(currentPage + 1))
+	};
+
 	useEffect(() => {
+    console.log(currentPage)
 		performSearch(query);
 	}, [currentPage, performSearch, query]);
 
 	return (
 		<>
-			<div className="main-header">
-				<div className="inner">
-					<h1 className="main-title">RepoSearch</h1>
-					<SearchForm onSearch={performSearch} />
-				</div>
-			</div>
+      <SearchForm onSearch={performSearch} />
 			<div className="main-content">
 				{loading ? (
 					<p>Loading...</p>
@@ -60,9 +66,15 @@ const App = () => {
 					<div>
 						<h2>{query}</h2>
 						<RepoList data={repos} />
-						<button onClick={() => dispatch(setCurrentPage(currentPage + 1))}>
-							Load more
-						</button>
+						{totalPages > 1 && (
+							<div className="pagination">
+								<button onClick={handlePrevPageClick}>Previous</button>
+								<span className="page-number">
+									Page {currentPage} of {totalPages}
+								</span>
+								<button onClick={handleNextPageClick}>Next</button>
+							</div>
+						)}
 					</div>
 				)}
 			</div>

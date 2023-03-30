@@ -1,23 +1,23 @@
 import React from 'react';
-import Repo from './Repo';
-import NoRepos from './NoRepos';
+import Repo from '../Repo';
+import NoRepos from '../NoRepos';
+import { StyledRepoList } from './RepoList.styles';
 
 const RepoList = ({ data }) => {
+  console.log(data)
   const repos = data.length
     ? data.map(repo => (
         <Repo
           key={repo.id}
-          name={repo.name}
-          url={repo.html_url}
-          description={repo.description}
+          data={repo}
         />
       ))
     : <NoRepos />;
 
   return (
-    <ul className="repo-list">
+    <StyledRepoList>
       {repos}
-    </ul>
+    </StyledRepoList>
   );
 };
 
