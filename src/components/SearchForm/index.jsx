@@ -8,6 +8,7 @@ const SearchForm = ({ onSearch }) => {
 
 	const onSearchChange = (e) => {
 		setSearchText(e.target.value);
+		onSearch(queryRef.current.value);
 	};
 
 	const handleSubmit = (e) => {

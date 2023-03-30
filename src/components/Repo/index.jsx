@@ -9,6 +9,7 @@ import {
 	StyledLanguage,
 	StyledRating,
 	StyledWatching,
+  StyledItem,
 } from './Repo.styles';
 
 const Repo = (props) => {
@@ -26,9 +27,9 @@ const Repo = (props) => {
 			<StyledLanguage>{data.language}</StyledLanguage>
 			<StyledDescription>{data.description}</StyledDescription>
 			<StyledRating>
-				<svg
-					width="29"
-					height="30"
+				<StyledItem><svg
+					width="19"
+					height="20"
 					viewBox="0 0 29 30"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
@@ -38,27 +39,30 @@ const Repo = (props) => {
 						fill="#FFC22B"
 					/>
 				</svg>
-				{data.stargazers_count} stars
+        </StyledItem>
+				<StyledItem>{data.stargazers_count}</StyledItem> <StyledItem>stars</StyledItem>
 			</StyledRating>
 			<StyledWatching>
-				<svg width="24" height="24" viewBox="0 0 100 100" fill="none">
-					<g>
-						<path
-							d="M50.096,58.555c14.782,0,26.805-12.025,26.805-26.806c0-14.78-12.023-26.805-26.805-26.805
+				<StyledItem>
+					<svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+						<g>
+							<path
+								d="M50.096,58.555c14.782,0,26.805-12.025,26.805-26.806c0-14.78-12.023-26.805-26.805-26.805
               c-14.78,0-26.804,12.025-26.804,26.805C23.292,46.53,35.316,58.555,50.096,58.555z M50.096,10.928
               c11.481,0,20.823,9.34,20.823,20.821c0,11.481-9.342,20.823-20.823,20.823c-11.48,0-20.82-9.342-20.82-20.823
               C29.276,20.269,38.616,10.928,50.096,10.928z"
-							fill="#6E798C"
-						/>
-						<path
-							d="M64.751,64H35.249C18.07,64,4.094,79,4.094,95h5.985c0-13,11.056-25,25.169-25h29.502C78.63,70,89.92,82,89.92,95h5.985
+								fill="#6E798C"
+							/>
+							<path
+								d="M64.751,64H35.249C18.07,64,4.094,79,4.094,95h5.985c0-13,11.056-25,25.169-25h29.502C78.63,70,89.92,82,89.92,95h5.985
               C95.905,79,81.93,64,64.751,64z"
-							fill="#6E798C"
-						/>
-					</g>
-				</svg>
-				{data.watchers_count}
-				watchers
+								fill="#6E798C"
+							/>
+						</g>
+					</svg>
+				</StyledItem>
+				<StyledItem>{data.watchers_count}</StyledItem>
+				<StyledItem>watchers</StyledItem>
 			</StyledWatching>
 		</StyledRepo>
 	);

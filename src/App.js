@@ -9,7 +9,8 @@ import {
 } from './state/reducers/repos';
 import SearchForm from './components/SearchForm';
 import RepoList from './components/RepoList';
-import './App.css';
+import Pagination from './components/Pagination';
+import { StyledLoading } from './components/Loading/Loading.styles';
 const App = () => {
 	const dispatch = useDispatch();
 	const repos = useSelector((state) => state.repos.items);
@@ -43,39 +44,35 @@ const App = () => {
 	);
 
 	const handlePrevPageClick = () => {
-		dispatch(setCurrentPage(currentPage - 1))
-    console.log(currentPage)
+		dispatch(setCurrentPage(currentPage - 1));
 	};
 
 	const handleNextPageClick = () => {
-		dispatch(setCurrentPage(currentPage + 1))
+		dispatch(setCurrentPage(currentPage + 1));
 	};
 
 	useEffect(() => {
-    console.log(currentPage)
 		performSearch(query);
 	}, [currentPage, performSearch, query]);
 
 	return (
 		<>
-      <SearchForm onSearch={performSearch} />
-			<div className="main-content">
+			<SearchForm onSearch={performSearch} />
+			<div>
 				{loading ? (
-					<p>Loading...</p>
+					<StyledLoading>Loading...</StyledLoading>
 				) : (
-					<div>
-						<h2>{query}</h2>
+					<>
 						<RepoList data={repos} />
 						{totalPages > 1 && (
-							<div className="pagination">
-								<button onClick={handlePrevPageClick}>Previous</button>
-								<span className="page-number">
-									Page {currentPage} of {totalPages}
-								</span>
-								<button onClick={handleNextPageClick}>Next</button>
-							</div>
+							<Pagination 
+								handlePrevPageClick={handlePrevPageClick} 
+								handleNextPageClick={handleNextPageClick}
+								currentPage={currentPage}
+								totalPages={totalPages}
+							/>
 						)}
-					</div>
+					</>
 				)}
 			</div>
 		</>

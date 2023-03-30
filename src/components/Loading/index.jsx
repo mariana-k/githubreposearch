@@ -1,8 +1,8 @@
 import React from 'react';
 
 const NoRepos = props => (
-  <li className='no-repos'>
-    <h3>Sorry, no Repos match your search.</h3>
+  <li>
+    <h3>No repository was found for your request</h3>
   </li>
 );
 

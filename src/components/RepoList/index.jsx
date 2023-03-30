@@ -4,7 +4,6 @@ import NoRepos from '../NoRepos';
 import { StyledRepoList } from './RepoList.styles';
 
 const RepoList = ({ data }) => {
-  console.log(data)
   const repos = data.length
     ? data.map(repo => (
         <Repo
