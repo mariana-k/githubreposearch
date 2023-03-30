@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const StyledSearchForm = styled.form`
-	display: block;
 	margin: 1rem;
 `;
 export const StyledInput = styled.input`

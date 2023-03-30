@@ -1,31 +1,26 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyledSearchForm, StyledInput } from './SearchForm.styles'
 
 const SearchForm = ({ onSearch }) => {
 	const [searchText, setSearchText] = useState('');
-
-	const queryRef = useRef(null);
-
-	const onSearchChange = (e) => {
-		setSearchText(e.target.value);
-		onSearch(queryRef.current.value);
+	const handleChange = (e) => {
+		setSearchText(e.target.value)
 	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		onSearch(queryRef.current.value);
-		e.currentTarget.reset();
-	};
+	const handleKeyUp = useCallback(
+		() => {
+			onSearch(searchText);
+		}, [onSearch, searchText]
+	);
 
 	return (
-		<StyledSearchForm onSubmit={handleSubmit}>
+		<StyledSearchForm>
 			<StyledInput
 				type="search"
-				onChange={onSearchChange}
+				onChange={handleChange}
+				onKeyUp={handleKeyUp}
 				name="search"
 				value={searchText}
-				ref={queryRef}
-				placeholder="Search..."
+				placeholder="Search"
 			/>
 		</StyledSearchForm>
 	);

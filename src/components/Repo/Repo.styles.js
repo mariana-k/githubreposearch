@@ -11,7 +11,7 @@ export const StyledRepo = styled.li`
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: 15% 65% 25%;
-  alidgn-items: center;
+	alidgn-items: center;
 	grid-template-areas:
 		'image name name'
 		'image author author'
@@ -76,9 +76,9 @@ export const StyledRating = styled.div`
 	font-size: 1rem;
 	line-height: 1.563rem;
 	color: #081f32;
-  display: flex;
+	display: flex;
 	justify-content: left;
-  align-items: center;
+	align-items: center;
 `;
 export const StyledItem = styled.div`
 	margin: 0.25rem;
@@ -92,5 +92,5 @@ export const StyledWatching = styled.div`
 	color: #081f32;
 	display: flex;
 	justify-content: left;
-  align-items: center;
+	align-items: center;
 `;
