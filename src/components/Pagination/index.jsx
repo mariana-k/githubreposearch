@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { StyledPagination, StyledButton, StyledActiveButton } from './Pagination.styles';
+import {
+	StyledPagination,
+} from './Pagination.styles';
 import { setCurrentPage } from '../../state/reducers/repos';
+import Button from '../Button';
 const Pagination = (props) => {
 	const dispatch = useDispatch();
 	const { handleNextPageClick, handlePrevPageClick, currentPage, totalPages } =
@@ -29,23 +32,20 @@ const Pagination = (props) => {
 	const renderPageNumbers = pages.map((page) => {
 		return (
 			<div key={page}>
-				{currentPage === page ? (
-					<StyledActiveButton onClick={() => handlePageClick(page)}>
-						{page}
-					</StyledActiveButton>
-				) : (
-					<StyledButton onClick={() => handlePageClick(page)}>
-						{page}
-					</StyledButton>
-				)}
+				<Button
+					onClick={() => handlePageClick(page)}
+					isActive={currentPage === page}
+				>
+					{page}
+				</Button>
 			</div>
 		);
 	});
 	return (
 		<StyledPagination>
-			<StyledButton onClick={handlePrevPageClick}>Previous</StyledButton>
+			<Button onClick={handlePrevPageClick}>Previous</Button>
 			{renderPageNumbers}
-			<StyledButton onClick={handleNextPageClick}>Next</StyledButton>
+			<Button onClick={handleNextPageClick}>Next</Button>
 		</StyledPagination>
 	);
 };

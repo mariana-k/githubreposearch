@@ -1,34 +1,32 @@
 import React from 'react';
-import {
-	StyledRepo,
-	StyledAvatar,
-	StyledAvatarImage,
-	StyledAuthor,
-	StyledName,
-	StyledDescription,
-	StyledLanguage,
-	StyledRating,
-	StyledWatching,
-	StyledItem,
-	StyledItemLight,
-} from './Repo.styles';
+import { StyledRepo } from './Repo.styles';
+import AvatarImage from '../AvatarImage';
+import Avatar from '../Avatar';
+import Author from '../Author';
+import Name from '../Name';
+import Language from '../Language';
+import Description from '../Description';
+import Item from '../Item';
+import ItemLight from '../ItemLight';
+import Rating from '../Rating';
+import Watching from '../Watching';
 
 const Repo = (props) => {
 	const { data } = props;
 
 	return (
 		<StyledRepo>
-			<StyledAvatar href={data.owner.url}>
-				<StyledAvatarImage src={data.owner.avatar_url} alt={data.owner.name} />
-			</StyledAvatar>
-			<StyledName href={data.url} target="_blank" rel="noreferrer">
+			<Avatar href={data.owner.url}>
+				<AvatarImage src={data.owner.avatar_url} alt={data.owner.name} />
+			</Avatar>
+			<Name href={data.url} target="_blank" rel="noreferrer">
 				{data.name}
-			</StyledName>
-			<StyledAuthor href={data.owner.url}>{data.owner.login}</StyledAuthor>
-			<StyledLanguage>{data.language}</StyledLanguage>
-			<StyledDescription>{data.description}</StyledDescription>
-			<StyledRating>
-				<StyledItem>
+			</Name>
+			<Author href={data.owner.url}>{data.owner.login}</Author>
+			<Language>{data.language}</Language>
+			<Description>{data.description}</Description>
+			<Rating>
+				<Item>
 					<svg
 						width="19"
 						height="20"
@@ -41,12 +39,11 @@ const Repo = (props) => {
 							fill="#FFC22B"
 						/>
 					</svg>
-				</StyledItem>
-				<StyledItem>{data.stargazers_count}</StyledItem>{' '}
-				<StyledItemLight>stars</StyledItemLight>
-			</StyledRating>
-			<StyledWatching>
-				<StyledItem>
+				</Item>
+				<Item>{data.stargazers_count}</Item> <ItemLight>stars</ItemLight>
+			</Rating>
+			<Watching>
+				<Item>
 					<svg width="20" height="20" viewBox="0 0 100 100" fill="none">
 						<g>
 							<path
@@ -63,10 +60,10 @@ const Repo = (props) => {
 							/>
 						</g>
 					</svg>
-				</StyledItem>
-				<StyledItem>{data.watchers_count}</StyledItem>
-				<StyledItem>watchers</StyledItem>
-			</StyledWatching>
+				</Item>
+				<Item>{data.watchers_count}</Item>
+				<Item>watchers</Item>
+			</Watching>
 		</StyledRepo>
 	);
 };

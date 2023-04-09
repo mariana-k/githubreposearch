@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { StyledSearchForm, StyledInput } from './SearchForm.styles'
+import { StyledSearchForm } from './SearchForm.styles'
+import Input from '../Input';
 
 const SearchForm = ({ onSearch }) => {
 	const [searchText, setSearchText] = useState('');
@@ -14,14 +15,7 @@ const SearchForm = ({ onSearch }) => {
 
 	return (
 		<StyledSearchForm>
-			<StyledInput
-				type="search"
-				onChange={handleChange}
-				onKeyUp={handleKeyUp}
-				name="search"
-				value={searchText}
-				placeholder="Search"
-			/>
+			<Input value={searchText} onChange={handleChange} onKeyUp={handleKeyUp} />
 		</StyledSearchForm>
 	);
 };
