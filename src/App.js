@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import axios from 'axios';
+import { apiCall } from './utils/apiCall';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setItems,
@@ -19,29 +19,19 @@ const App = () => {
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const [totalPages, setTotalPages] = useState(1);
 	const perPage = 20;
-	const performSearch = useCallback(
-		(query) => {
-			dispatch(setQuery(query));
-			dispatch(setLoading(true));
-			axios
-				.get(`https://api.github.com/search/repositories`, {
-					params: {
-						q: query,
-						per_page: perPage,
-						page: currentPage,
-					},
-				})
-				.then((response) => {
-					dispatch(setItems(response.data.items));
-					dispatch(setLoading(false));
-					setTotalPages(Math.ceil(response.data.total_count / perPage));
-				})
-				.catch((error) => {
-					console.log('Error fetching and parsing data', error);
-				});
-		},
-		[currentPage, dispatch]
-	);
+	const performSearch = useCallback((query) => {
+		dispatch(setQuery(query));
+		dispatch(setLoading(true));
+		apiCall(
+			query,
+			perPage,
+			currentPage,
+			dispatch,
+			setTotalPages,
+			setItems,
+			setLoading
+		);
+	}, [currentPage, dispatch]);
 
 	const handlePrevPageClick = () => {
 		dispatch(setCurrentPage(currentPage - 1));
@@ -65,8 +55,8 @@ const App = () => {
 					<>
 						<RepoList data={repos} />
 						{totalPages > 1 && (
-							<Pagination 
-								handlePrevPageClick={handlePrevPageClick} 
+							<Pagination
+								handlePrevPageClick={handlePrevPageClick}
 								handleNextPageClick={handleNextPageClick}
 								currentPage={currentPage}
 								totalPages={totalPages}

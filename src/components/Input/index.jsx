@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyledInput } from './Input.styles';
 
 const Input = (props) => {
+	const [searchText, setSearchText] = useState('');
+	const handleChange = (e) => {
+		setSearchText(e.target.value);
+	};
+	const handleKeyUp = () => {
+		props.onSearch(searchText);
+	};
 	return (
 		<StyledInput
 			type="search"
-			onChange={props.handleChange}
-			onKeyUp={props.handleKeyUp}
+			onChange={handleChange}
+			onKeyUp={handleKeyUp}
 			name="search"
-			value={props.searchText}
+			value={searchText}
 			placeholder="Search"
 		/>
 	);
