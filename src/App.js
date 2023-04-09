@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { apiCall } from './utils/apiCall';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setItems,
@@ -11,6 +10,7 @@ import SearchForm from './components/SearchForm';
 import RepoList from './components/RepoList';
 import Pagination from './components/Pagination';
 import { StyledLoading } from './components/Loading/Loading.styles';
+import { fetchRepoData } from './utils/fetchData';
 const App = () => {
 	const dispatch = useDispatch();
 	const repos = useSelector((state) => state.repos.items);
@@ -19,19 +19,18 @@ const App = () => {
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const [totalPages, setTotalPages] = useState(1);
 	const perPage = 20;
-	const performSearch = useCallback((query) => {
-		dispatch(setQuery(query));
-		dispatch(setLoading(true));
-		apiCall(
-			query,
-			perPage,
-			currentPage,
-			dispatch,
-			setTotalPages,
-			setItems,
-			setLoading
-		);
-	}, [currentPage, dispatch]);
+	const performSearch = useCallback(
+		(query) => {
+			dispatch(setQuery(query));
+			dispatch(setLoading(true));
+			dispatch(fetchRepoData(query, perPage, currentPage)).then((action) => {
+				dispatch(setItems(action.payload.items));
+				dispatch(setLoading(false));
+				setTotalPages(Math.ceil(action.payload.total_count / perPage));
+			});
+		},
+		[currentPage, dispatch]
+	);
 
 	const handlePrevPageClick = () => {
 		dispatch(setCurrentPage(currentPage - 1));
