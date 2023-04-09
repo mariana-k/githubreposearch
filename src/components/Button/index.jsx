@@ -7,7 +7,7 @@ const Button = (props) => {
 			{props.children}
 		</StyledActiveButton>
 	) : (
-		<StyledButton onClick={props.onClick}>{props.children}</StyledButton>
+		<StyledButton onClick={props.onClick} disabled={props.isDisabled}>{props.children}</StyledButton>
 	);
 };
 

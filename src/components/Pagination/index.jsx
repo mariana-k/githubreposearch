@@ -1,13 +1,15 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	StyledPagination,
 } from './Pagination.styles';
+
 import { setCurrentPage } from '../../state/reducers/repos';
 import Button from '../Button';
 const Pagination = (props) => {
 	const dispatch = useDispatch();
-	const { handleNextPageClick, handlePrevPageClick, currentPage, totalPages } =
+	const currentPage = useSelector((state) => state.repos.currentPage)
+	const { handleNextPageClick, handlePrevPageClick, totalPages } =
 		props;
 	const pageNeighbours = 4;
 	const pagesToShow = pageNeighbours * 2 + 1;
@@ -43,7 +45,7 @@ const Pagination = (props) => {
 	});
 	return (
 		<StyledPagination>
-			<Button onClick={handlePrevPageClick}>Previous</Button>
+			<Button onClick={handlePrevPageClick} isDisabled={currentPage < 2}>Previous</Button>
 			{renderPageNumbers}
 			<Button onClick={handleNextPageClick}>Next</Button>
 		</StyledPagination>

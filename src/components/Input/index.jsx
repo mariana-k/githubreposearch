@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { StyledInput } from './Input.styles';
+import {
+	setCurrentPage,
+} from '../../state/reducers/repos';
 
 const Input = (props) => {
-	const [searchText, setSearchText] = useState('');
+	const [query, setQuery] = useState('');
+	const dispatch = useDispatch();
 	const handleChange = (e) => {
-		setSearchText(e.target.value);
+		setQuery(e.target.value);
 	};
 	const handleKeyUp = () => {
-		props.onSearch(searchText);
+		dispatch(setCurrentPage(1))
+		props.onSearch(query);
 	};
 	return (
 		<StyledInput
@@ -15,7 +21,7 @@ const Input = (props) => {
 			onChange={handleChange}
 			onKeyUp={handleKeyUp}
 			name="search"
-			value={searchText}
+			value={query}
 			placeholder="Search"
 		/>
 	);

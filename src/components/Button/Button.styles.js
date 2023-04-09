@@ -13,6 +13,12 @@ export const StyledButton = styled.button`
 	font-size: 1.125rem;
 	line-height: 1.25rem;
 	margin: 0.5rem;
+
+	:disabled {
+		color: #a5adbb;
+		cursor: not-allowed;
+		pointer-events: all;
+	}
 `;
 
 export const StyledActiveButton = styled(StyledButton)`
