@@ -4,14 +4,10 @@ import { fetchRepoData } from '../../utils/fetchData';
 const reposSlice = createSlice({
 	name: 'repos',
 	initialState: {
-		items: [],
 		query: 'react',
 		currentPage: 1,
 	},
 	reducers: {
-		setItems: (state, action) => {
-			state.items = action.payload;
-		},
 		setQuery: (state, action) => {
 			state.query = action.payload;
 		},
@@ -26,7 +22,10 @@ const reposSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchRepoData.fulfilled, (state, action) => {
+				const perPage = 20
 				state.loading = false;
+				state.repoData = action.payload
+				state.totalPages = Math.ceil(action.payload.total_count / perPage)
 			})
 			.addCase(fetchRepoData.rejected, (state, action) => {
 				state.loading = false;
