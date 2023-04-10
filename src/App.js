@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setItems,
 	setQuery,
-	setLoading,
 	setCurrentPage,
 } from './state/reducers/repos';
 import SearchForm from './components/SearchForm';
@@ -19,13 +18,13 @@ const App = () => {
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const [totalPages, setTotalPages] = useState(1);
 	const perPage = 20;
+
 	const performSearch = useCallback(
 		(query) => {
 			dispatch(setQuery(query));
-			dispatch(setLoading(true));
 			dispatch(fetchRepoData(query, perPage, currentPage)).then((action) => {
 				dispatch(setItems(action.payload.items));
-				dispatch(setLoading(false));
+	
 				setTotalPages(Math.ceil(action.payload.total_count / perPage));
 			});
 		},

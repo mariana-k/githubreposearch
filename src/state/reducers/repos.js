@@ -6,7 +6,6 @@ const reposSlice = createSlice({
 	initialState: {
 		items: [],
 		query: 'react',
-		loading: true,
 		currentPage: 1,
 		repoData: [],
 	},
@@ -17,19 +16,24 @@ const reposSlice = createSlice({
 		setQuery: (state, action) => {
 			state.query = action.payload;
 		},
-		setLoading: (state, action) => {
-			state.loading = action.payload;
-		},
 		setCurrentPage: (state, action) => {
 			state.currentPage = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
-		// Add reducers for additional action types here, and handle loading state as needed
-		builder.addCase(fetchRepoData.fulfilled, (state, action) => {
-			// Add user to the state array
-			state.repoData.push(action.payload);
-		});
+		builder
+			.addCase(fetchRepoData.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(fetchRepoData.fulfilled, (state, action) => {
+				state.loading = false;
+				state.repoData.push(action.payload);
+			})
+			.addCase(fetchRepoData.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.error.message;
+			});
 	},
 });
 
