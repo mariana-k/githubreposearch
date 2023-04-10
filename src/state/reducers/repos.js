@@ -7,7 +7,6 @@ const reposSlice = createSlice({
 		items: [],
 		query: 'react',
 		currentPage: 1,
-		repoData: [],
 	},
 	reducers: {
 		setItems: (state, action) => {
@@ -28,7 +27,6 @@ const reposSlice = createSlice({
 			})
 			.addCase(fetchRepoData.fulfilled, (state, action) => {
 				state.loading = false;
-				state.repoData.push(action.payload);
 			})
 			.addCase(fetchRepoData.rejected, (state, action) => {
 				state.loading = false;

@@ -1,10 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	setItems,
-	setQuery,
-	setCurrentPage,
-} from './state/reducers/repos';
+import { setItems, setQuery, setCurrentPage } from './state/reducers/repos';
 import SearchForm from './components/SearchForm';
 import RepoList from './components/RepoList';
 import Pagination from './components/Pagination';
@@ -18,13 +14,11 @@ const App = () => {
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const [totalPages, setTotalPages] = useState(1);
 	const perPage = 20;
-
 	const performSearch = useCallback(
 		(query) => {
 			dispatch(setQuery(query));
 			dispatch(fetchRepoData(query, perPage, currentPage)).then((action) => {
 				dispatch(setItems(action.payload.items));
-	
 				setTotalPages(Math.ceil(action.payload.total_count / perPage));
 			});
 		},
