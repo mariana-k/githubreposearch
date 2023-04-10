@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuery, setCurrentPage } from './state/reducers/repos';
 import SearchForm from './components/SearchForm';
@@ -8,21 +8,12 @@ import { StyledLoading } from './components/Loading/Loading.styles';
 import { fetchRepoData } from './utils/fetchData';
 const App = () => {
 	const dispatch = useDispatch();
-	const repos = useSelector((state) => state.repos.repoData.items);
+	const repos = useSelector((state) => state.repos.repoData[0].items);
 	const query = useSelector((state) => state.repos.query);
 	const loading = useSelector((state) => state.repos.loading);
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const totalPages = useSelector((state) => state.repos.totalPages);
 	const perPage = 20;
-
-	const performSearch = useCallback(
-		(query) => {
-			dispatch(setQuery(query));
-			dispatch(fetchRepoData(query, perPage, currentPage));
-		},
-		[currentPage, dispatch]
-	);
-
 	const handlePrevPageClick = () => {
 		dispatch(setCurrentPage(currentPage - 1));
 	};
@@ -31,13 +22,23 @@ const App = () => {
 		dispatch(setCurrentPage(currentPage + 1));
 	};
 
-	useEffect(() => {
-		performSearch(query);
-	}, [currentPage, performSearch, query]);
+	const handleOnSearch = (query) => {
+		dispatch(setQuery(query));
+	};
 
+	useEffect(() => {
+		const performSearch = () => {
+			dispatch(setQuery(query));
+			dispatch(fetchRepoData(query, perPage, currentPage));
+		};
+		
+
+		performSearch(query);
+	}, [currentPage, dispatch, query]);
+	console.log(repos)
 	return (
 		<>
-			<SearchForm onSearch={performSearch} />
+			<SearchForm onSearch={handleOnSearch} />
 			<div>
 				{loading ? (
 					<StyledLoading>Loading...</StyledLoading>

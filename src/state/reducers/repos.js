@@ -6,6 +6,7 @@ const reposSlice = createSlice({
 	initialState: {
 		query: 'react',
 		currentPage: 1,
+		repoData: [],
 	},
 	reducers: {
 		setQuery: (state, action) => {
@@ -22,10 +23,10 @@ const reposSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchRepoData.fulfilled, (state, action) => {
-				const perPage = 20
+				const perPage = 20;
 				state.loading = false;
-				state.repoData = action.payload
-				state.totalPages = Math.ceil(action.payload.total_count / perPage)
+				state.repoData.push(action.payload);
+				state.totalPages = Math.ceil(action.payload?.total_count / perPage);
 			})
 			.addCase(fetchRepoData.rejected, (state, action) => {
 				state.loading = false;
