@@ -14,16 +14,7 @@ const App = () => {
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const [totalPages, setTotalPages] = useState(1);
 	const perPage = 20;
-	const performSearch = useCallback(
-		(query) => {
-			dispatch(setQuery(query));
-			dispatch(fetchRepoData(query, perPage, currentPage)).then((action) => {
-				dispatch(setItems(action.payload.items));
-				setTotalPages(Math.ceil(action.payload.total_count / perPage));
-			});
-		},
-		[currentPage, dispatch]
-	);
+	
 
 	const handlePrevPageClick = () => {
 		dispatch(setCurrentPage(currentPage - 1));
@@ -34,8 +25,16 @@ const App = () => {
 	};
 
 	useEffect(() => {
+		const performSearch = (query) => {
+			dispatch(setQuery(query));
+			dispatch(fetchRepoData(query, perPage, currentPage)).then((action) => {
+				dispatch(setItems(action.payload.items));
+				setTotalPages(Math.ceil(action.payload.total_count / perPage));
+			});
+		},
+		
 		performSearch(query);
-	}, [currentPage, performSearch, query]);
+	}, [currentPage, query]);
 
 	return (
 		<>
