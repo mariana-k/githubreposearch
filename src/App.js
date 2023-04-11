@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuery, setCurrentPage } from './state/reducers/repos';
 import SearchForm from './components/SearchForm';
@@ -8,12 +8,11 @@ import { StyledLoading } from './components/Loading/Loading.styles';
 import { fetchRepoData } from './utils/fetchData';
 const App = () => {
 	const dispatch = useDispatch();
-	const data = useSelector((state) => state.repos.repoData);
+	const items = useSelector((state) => state.repos.items);
 	const query = useSelector((state) => state.repos.query);
 	const loading = useSelector((state) => state.repos.loading);
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const totalPages = useSelector((state) => state.repos.totalPages);
-	const [repos, setRepos] = useState([]);
 	const perPage = 20;
 	const handlePrevPageClick = () => {
 		dispatch(setCurrentPage(currentPage - 1));
@@ -36,10 +35,6 @@ const App = () => {
 		performSearch();
 	}, [currentPage, dispatch, query]);
 
-	useEffect(() => {
-		setRepos(data?.items);
-	}, [data?.items]);
-
 	return (
 		<>
 			<SearchForm onSearch={handleOnSearch} />
@@ -48,7 +43,7 @@ const App = () => {
 					<StyledLoading>Loading...</StyledLoading>
 				) : (
 					<>
-						{repos && <RepoList data={repos} />}
+						{items && <RepoList data={items} />}
 						{totalPages > 1 && (
 							<Pagination
 								handlePrevPageClick={handlePrevPageClick}
