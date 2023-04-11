@@ -35,7 +35,7 @@ const reposSlice = createSlice({
 	},
 });
 
-export const { setItems, setQuery, setLoading, setCurrentPage } =
+export const { setQuery, setCurrentPage } =
 	reposSlice.actions;
 
 export default reposSlice.reducer;
