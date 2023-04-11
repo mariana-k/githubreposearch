@@ -8,11 +8,12 @@ import { StyledLoading } from './components/Loading/Loading.styles';
 import { fetchRepoData } from './utils/fetchData';
 const App = () => {
 	const dispatch = useDispatch();
-	const repos = useSelector((state) => state.repos.repoData[0].items);
+	const data = useSelector((state) => state.repos.repoData);
 	const query = useSelector((state) => state.repos.query);
 	const loading = useSelector((state) => state.repos.loading);
 	const currentPage = useSelector((state) => state.repos.currentPage);
 	const totalPages = useSelector((state) => state.repos.totalPages);
+	const [repos, setRepos] = useState([]);
 	const perPage = 20;
 	const handlePrevPageClick = () => {
 		dispatch(setCurrentPage(currentPage - 1));
@@ -31,11 +32,14 @@ const App = () => {
 			dispatch(setQuery(query));
 			dispatch(fetchRepoData(query, perPage, currentPage));
 		};
-		
 
-		performSearch(query);
+		performSearch();
 	}, [currentPage, dispatch, query]);
-	console.log(repos)
+
+	useEffect(() => {
+		setRepos(data?.items);
+	}, [data?.items]);
+
 	return (
 		<>
 			<SearchForm onSearch={handleOnSearch} />
@@ -44,7 +48,7 @@ const App = () => {
 					<StyledLoading>Loading...</StyledLoading>
 				) : (
 					<>
-						<RepoList data={repos} />
+						{repos && <RepoList data={repos} />}
 						{totalPages > 1 && (
 							<Pagination
 								handlePrevPageClick={handlePrevPageClick}
